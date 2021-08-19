@@ -39,9 +39,10 @@ export default function QuizScreen({
   const [score, setScore] = useState<number>(0);
   const [count, setCount] = useState<number>(1);
 
-  const [animatedOpacity, api] = useSpring(() => ({
+  const [{ opacity, scale }, api] = useSpring(() => ({
     opacity: 1,
-    from: { opacity: 0 },
+    scale: 1,
+    from: { opacity: 0, scale: 0.9 },
   }));
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function QuizScreen({
 
   useEffect(() => {
     if (data.length) {
-      api.start({ opacity: 0, onRest: nextQuiz });
+      api.start({ opacity: 0, scale: 0.9, onRest: nextQuiz });
     }
   }, [data]);
 
@@ -74,7 +75,7 @@ export default function QuizScreen({
       if (count === numberOfRounds) {
         navigation.navigate("Score", { score: score + 1 });
       } else {
-        api.start({ opacity: 0, onRest: nextQuiz });
+        api.start({ opacity: 0, scale: 0.9, onRest: nextQuiz });
       }
     }, 2000);
   };
@@ -101,6 +102,7 @@ export default function QuizScreen({
     timeoutRef.current = setTimeout(() => {
       api.start({
         opacity: 1,
+        scale: 1,
         onRest: () => {
           setIsReady(true);
         },
@@ -120,7 +122,7 @@ export default function QuizScreen({
     <View style={styles.container}>
       <Timer active={!showAnswer} onCompleted={() => handleOnPress("")} />
       <Separator />
-      <animated.View style={[styles.quiz, animatedOpacity]}>
+      <animated.View style={[styles.quiz, { opacity, transform: [{ scale }] }]}>
         <Image
           visible={showAnswer}
           source={{ uri: answer?.sprites.front_default }}
