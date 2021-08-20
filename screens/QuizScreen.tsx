@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { useSpring, animated } from "@react-spring/native";
 
@@ -10,7 +10,6 @@ import Image from "../components/Image";
 import Loading from "../components/Loading";
 import Timer from "../components/Timer";
 import Separator from "../components/Separator";
-import Score from "../components/Score";
 
 type Data = {
   name: string;
@@ -39,7 +38,7 @@ export default function QuizScreen({
   const [score, setScore] = useState<number>(0);
   const [count, setCount] = useState<number>(1);
 
-  const [{ opacity, scale }, api] = useSpring(() => ({
+  const [{ opacity, scale }, springApi] = useSpring(() => ({
     opacity: 1,
     scale: 1,
     from: { opacity: 0, scale: 0.9 },
@@ -59,7 +58,7 @@ export default function QuizScreen({
 
   useEffect(() => {
     if (data.length) {
-      api.start({ opacity: 0, scale: 0.9, onRest: nextQuiz });
+      springApi.start({ opacity: 0, scale: 0.9, onRest: nextQuiz });
     }
   }, [data]);
 
@@ -75,7 +74,7 @@ export default function QuizScreen({
       if (count === numberOfRounds) {
         navigation.navigate("Score", { score: score + 1 });
       } else {
-        api.start({ opacity: 0, scale: 0.9, onRest: nextQuiz });
+        springApi.start({ opacity: 0, scale: 0.9, onRest: nextQuiz });
       }
     }, 2000);
   };
@@ -100,7 +99,7 @@ export default function QuizScreen({
     setShowAnswer(false);
 
     timeoutRef.current = setTimeout(() => {
-      api.start({
+      springApi.start({
         opacity: 1,
         scale: 1,
         onRest: () => {
@@ -142,7 +141,9 @@ export default function QuizScreen({
           );
         })}
         <Separator />
-        <Score title={`${score} / ${config.numberOfRounds}`} />
+        <Text style={styles.score}>
+          {`${score} / ${config.numberOfRounds}`}
+        </Text>
       </animated.View>
     </View>
   );
@@ -162,5 +163,10 @@ const styles = StyleSheet.create({
   },
   buttonSuccess: {
     backgroundColor: "#57D3AE",
+  },
+  score: {
+    fontWeight: "bold",
+    color: "#aaa",
+    fontSize: 16,
   },
 });

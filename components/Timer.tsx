@@ -39,8 +39,8 @@ export default function Timer(props: any) {
       direction="counter-clockwise"
       strokeCap="round"
       borderWidth={0}
-      unfilledColor="#F3F4FF"
-      textStyle={{ fontSize: 16, fontWeight: "600" }}
+      unfilledColor="#ccc"
+      textStyle={{ fontSize: 16, fontWeight: "bold" }}
     />
   );
 }

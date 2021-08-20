@@ -4,7 +4,6 @@ import { StackScreenProps } from "@react-navigation/stack";
 
 import config from "../constants/Config";
 import Button from "../components/Button";
-import Score from "../components/Score";
 import Separator from "../components/Separator";
 
 const { numberOfRounds } = config;
@@ -16,8 +15,10 @@ export default function ScoreScreen({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>You scored</Text>
-      <Separator />
-      <Score title={`${route.params?.score} / ${numberOfRounds}`} />
+      <Separator size={10} />
+      <Text style={styles.score}>
+        {`${route.params?.score} / ${numberOfRounds}`}
+      </Text>
       <Separator size={40} />
       <Button title="Play again?" onPress={() => navigation.navigate("Home")} />
     </View>
@@ -33,5 +34,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
+  },
+  score: {
+    fontWeight: "bold",
+    color: "#aaa",
+    fontSize: 16,
   },
 });

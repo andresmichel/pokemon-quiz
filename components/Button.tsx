@@ -28,17 +28,17 @@ export default function Button(props: ButtonComponentProps) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 21,
-    height: 42,
+    borderRadius: 20,
+    height: 40,
     width: 240,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000",
   },
   title: {
-    fontWeight: "600",
+    fontWeight: "bold",
     textTransform: "capitalize",
-    color: "white",
+    color: "#fff",
     fontSize: 16,
   },
 });
